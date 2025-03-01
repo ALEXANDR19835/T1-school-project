@@ -1,6 +1,6 @@
 package by.alexhome.t1schoolproject.controller;
 
-import by.alexhome.t1schoolproject.entity.Task;
+import by.alexhome.t1schoolproject.model.dto.TaskDto;
 import by.alexhome.t1schoolproject.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,18 +22,18 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public TaskDto createTask(@RequestBody TaskDto taskDto) {
+        return taskService.createTask(taskDto);
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) {
+    public TaskDto getTaskById(@PathVariable Long id) {
         return taskService.getTaskById(id);
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskService.updateTask(id, task);
+    public TaskDto updateTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+        return taskService.updateTask(id, taskDto);
     }
 
     @DeleteMapping("/{id}")
@@ -42,7 +42,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getAllTasks() {
+    public List<TaskDto> getAllTasks() {
         return taskService.getAllTasks();
     }
 }

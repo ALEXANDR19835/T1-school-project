@@ -15,6 +15,6 @@ public class LoggingAspectAfterThrowing {
 
     @AfterThrowing(pointcut = "@annotation(by.alexhome.t1schoolproject.aspect.annotation.LoggingThrowing)", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
-        logger.info("Exception in method: {} exception = {}", joinPoint.getSignature().getName(), ex.getMessage());
+        logger.error("Exception in method: {} exception = {}", joinPoint.getSignature().getName(), ex.getMessage());
     }
 }

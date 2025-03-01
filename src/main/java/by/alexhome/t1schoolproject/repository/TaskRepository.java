@@ -1,6 +1,6 @@
 package by.alexhome.t1schoolproject.repository;
 
-import by.alexhome.t1schoolproject.entity.Task;
+import by.alexhome.t1schoolproject.model.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

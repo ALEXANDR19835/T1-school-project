@@ -21,12 +21,11 @@ public class LoggingAspectAround {
         Object result = null;
         try {
             result = proceedingJoinPoint.proceed();
+            logger.info("Method: {} execution : {} millisecond", proceedingJoinPoint.getSignature().getName(),
+                    System.currentTimeMillis() - startTimeMillis);
         } catch (Throwable e) {
             e.printStackTrace();
         }
-
-        logger.info("Method: {} execution : {} millisecond", proceedingJoinPoint.getSignature().getName(),
-                System.currentTimeMillis() - startTimeMillis);
 
         return result;
     }
