@@ -18,6 +18,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -62,10 +63,11 @@ public class KafkaConfig {
             @Qualifier("consumerFactory") ConsumerFactory<String, TaskDto> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, TaskDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         return factory;
     }
 
-    @Bean("task_status")
+    @Bean("taskStatus")
     public KafkaTemplate<String, TaskDto> kafkaTemplate(ProducerFactory<String, TaskDto> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
@@ -74,7 +76,7 @@ public class KafkaConfig {
     @ConditionalOnProperty(value = "t1.kafka.producer.enable",
             havingValue = "true",
             matchIfMissing = true)
-    public KafkaProducer taskProducer(@Qualifier("task_status") KafkaTemplate<String, TaskDto> kafkaTemplate) {
+    public KafkaProducer taskProducer(@Qualifier("taskStatus") KafkaTemplate<String, TaskDto> kafkaTemplate) {
         kafkaTemplate.setDefaultTopic(taskTopic);
         return new KafkaProducer(kafkaTemplate);
     }
