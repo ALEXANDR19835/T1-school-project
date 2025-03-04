@@ -12,5 +12,35 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic:
+      task-updates: task-updates
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+    consumer:
+      group-id: my-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: by.alexhome.t1schoolproject
+  mail:
+    host: smtp.mail.ru
+    port: 587
+    username: gobi1983hh7@mail.ru
+    password: ibQuFbANxXzhXqzAmrW4
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 server:
   port: 8081
