@@ -44,3 +44,7 @@ spring:
             enable: true
 server:
   port: 8081
+app:
+  logging:
+    enable: true
+    log-level: ERROR
