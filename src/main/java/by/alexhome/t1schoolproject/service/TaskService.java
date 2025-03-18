@@ -1,9 +1,5 @@
 package by.alexhome.t1schoolproject.service;
 
-import by.alexhome.t1schoolproject.aspect.annotation.LoggingAfter;
-import by.alexhome.t1schoolproject.aspect.annotation.LoggingAround;
-import by.alexhome.t1schoolproject.aspect.annotation.LoggingBefore;
-import by.alexhome.t1schoolproject.aspect.annotation.LoggingThrowing;
 import by.alexhome.t1schoolproject.exception.TaskNotFoundException;
 import by.alexhome.t1schoolproject.kafka.producer.KafkaProducer;
 import by.alexhome.t1schoolproject.mapper.TaskMapper;
@@ -11,8 +7,14 @@ import by.alexhome.t1schoolproject.model.dto.TaskDto;
 import by.alexhome.t1schoolproject.model.entity.Task;
 import by.alexhome.t1schoolproject.model.enums.TaskStatus;
 import by.alexhome.t1schoolproject.repository.TaskRepository;
+import com.spring.starter.springbootloggingstarter.aspect.annotation.LoggingAfter;
+import com.spring.starter.springbootloggingstarter.aspect.annotation.LoggingAround;
+import com.spring.starter.springbootloggingstarter.aspect.annotation.LoggingBefore;
+import com.spring.starter.springbootloggingstarter.aspect.annotation.LoggingThrowing;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +37,8 @@ public class TaskService {
     @LoggingBefore
     @LoggingThrowing
     public TaskDto getTaskById(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task with ID = " + id + " not found"));
 
         return taskMapper.taskToTaskDTO(task);
     }
@@ -60,8 +63,9 @@ public class TaskService {
     @LoggingAfter
     @LoggingThrowing
     public void deleteTask(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
-        taskRepository.deleteById(task.getId());
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task with ID = " + id + " not found"));
+        taskRepository.deleteById(id);
     }
 
     @LoggingAround

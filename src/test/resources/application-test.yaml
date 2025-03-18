@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: test-task
+  jpa:
+    generate-ddl: true
+    open-in-view: true
+  datasource:
+    url:
+    username:
+    password:
